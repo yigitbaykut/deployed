@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Data Engine · Operasyon Dokümanı</title>
+<style>
+  :root{
+    --paper:#EFF0EB;
+    --panel:#E4E6DE;
+    --ink:#191B17;
+    --ink-soft:#5B6055;
+    --rule:#C2C7B9;
+    --rule-strong:#8E9587;
+    --mark:#F2C500;
+    --flag:#A8442A;
+  }
+
+  *{box-sizing:border-box;}
+
+  html{-webkit-text-size-adjust:100%;}
+
+  body{
+    margin:0;
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size:17px;
+    line-height:1.5;
+    font-feature-settings:"tnum" 1;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  .sheet{
+    max-width:1120px;
+    margin:0 auto;
+    padding:36px 44px 56px;
+  }
+
+  /* ---------- başlık ---------- */
+
+  .head{
+    border-top:3px solid var(--ink);
+    padding-top:16px;
+  }
+
+  .meta{
+    display:flex;
+    flex-wrap:wrap;
+    gap:0 40px;
+    padding-bottom:22px;
+    border-bottom:1px solid var(--rule);
+  }
+  .meta div{min-width:120px;}
+  .meta dt{
+    font-size:11.5px;
+    letter-spacing:.06em;
+    color:var(--ink-soft);
+    margin:0 0 3px;
+  }
+  .meta dd{
+    margin:0;
+    font-size:15px;
+    font-weight:500;
+  }
+
+  .thesis{
+    margin:26px 0 8px;
+    font-size:34px;
+    line-height:1.18;
+    font-weight:600;
+    letter-spacing:-.022em;
+    max-width:20em;
+  }
+  .thesis .m{
+    background:linear-gradient(transparent 58%, var(--mark) 58%, var(--mark) 94%, transparent 94%);
+    padding:0 .06em;
+  }
+
+  .sub{
+    margin:0 0 34px;
+    font-size:17px;
+    color:var(--ink-soft);
+    max-width:60ch;
+  }
+
+  /* ---------- bölümler ---------- */
+
+  section{
+    border-top:1px solid var(--rule-strong);
+    padding-top:18px;
+    margin-bottom:34px;
+  }
+
+  h2{
+    margin:0 0 4px;
+    font-size:19px;
+    font-weight:600;
+    letter-spacing:-.012em;
+    display:flex;
+    align-items:baseline;
+    gap:12px;
+  }
+  h2 .n{
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    min-width:14px;
+  }
+  .lede{
+    margin:0 0 18px 26px;
+    color:var(--ink-soft);
+    max-width:72ch;
+    font-size:15.5px;
+  }
+
+  .cols{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:34px;
+    margin-left:26px;
+  }
+
+  h3{
+    margin:0 0 10px;
+    font-size:14px;
+    font-weight:600;
+    letter-spacing:.01em;
+  }
+
+  ul{margin:0;padding:0;list-style:none;}
+  ul li{
+    padding:7px 0 7px 16px;
+    border-bottom:1px solid var(--rule);
+    font-size:15.5px;
+    position:relative;
+  }
+  ul li::before{
+    content:"";
+    position:absolute;
+    left:0;top:16px;
+    width:7px;height:1px;
+    background:var(--rule-strong);
+  }
+  ul li b{font-weight:600;}
+  ul li span{color:var(--ink-soft);}
+
+  /* ---------- tablolar ---------- */
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    font-size:15px;
+    margin-left:0;
+  }
+  .indent{margin-left:26px;width:calc(100% - 26px);}
+  th{
+    text-align:left;
+    font-size:11.5px;
+    letter-spacing:.06em;
+    font-weight:600;
+    color:var(--ink-soft);
+    padding:0 12px 8px 0;
+    border-bottom:1px solid var(--rule-strong);
+    vertical-align:bottom;
+  }
+  td{
+    padding:9px 12px 9px 0;
+    border-bottom:1px solid var(--rule);
+    vertical-align:top;
+  }
+  tbody tr:last-child td{border-bottom:1px solid var(--rule-strong);}
+  td.num{font-variant-numeric:tabular-nums;white-space:nowrap;}
+  td b{font-weight:600;}
+  .soft{color:var(--ink-soft);}
+  .slot{color:var(--flag);font-weight:500;}
+
+  .mark{
+    background:var(--mark);
+    padding:1px 5px;
+    font-weight:600;
+    white-space:nowrap;
+  }
+
+  /* ---------- ekonomi kutusu ---------- */
+
+  .econ{
+    background:var(--panel);
+    padding:18px 20px;
+    margin-top:14px;
+  }
+  .econ .big{
+    font-size:30px;
+    font-weight:600;
+    letter-spacing:-.02em;
+    font-variant-numeric:tabular-nums;
+    margin:2px 0 2px;
+  }
+  .econ p{margin:0;font-size:14px;color:var(--ink-soft);max-width:40ch;}
+
+  /* ---------- kapanış ---------- */
+
+  .plan{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:0;
+    margin-left:26px;
+    border-left:1px solid var(--rule);
+  }
+  .plan > div{
+    padding:0 18px 4px;
+    border-right:1px solid var(--rule);
+  }
+  .plan h4{
+    margin:0 0 6px;
+    font-size:12px;
+    letter-spacing:.05em;
+    color:var(--ink-soft);
+    font-weight:600;
+  }
+  .plan p{margin:0;font-size:15px;}
+
+  .ask{
+    border-top:3px solid var(--ink);
+    margin-top:34px;
+    padding-top:16px;
+    font-size:20px;
+    font-weight:600;
+    letter-spacing:-.012em;
+    max-width:52ch;
+  }
+
+  .notes{
+    margin-top:26px;
+    padding-top:14px;
+    border-top:1px solid var(--rule);
+    font-size:13px;
+    color:var(--ink-soft);
+    max-width:88ch;
+  }
+  .notes b{color:var(--ink);font-weight:600;}
+
+  @media (max-width:820px){
+    .cols,.plan{grid-template-columns:1fr;gap:24px;border-left:none;}
+    .plan > div{border-right:none;border-left:1px solid var(--rule);}
+    .thesis{font-size:27px;}
+    .sheet{padding:24px 20px 40px;}
+  }
+
+  @media print{
+    body{background:#fff;font-size:11pt;}
+    .sheet{max-width:none;padding:0;}
+    .thesis{font-size:22pt;}
+  }
+</style>
+</head>
+<body>
+<div class="sheet">
+
+  <div class="head">
+    <dl class="meta">
+      <div><dt>Doküman</dt><dd>Campus Data Engine</dd></div>
+      <div><dt>Hazırlayan</dt><dd>Yiğit Baykut</dd></div>
+      <div><dt>Tarih</dt><dd>10 Eylül 2026</dd></div>
+      <div><dt>Kapsam</dt><dd>Boğaziçi Üniversitesi, pilot</dd></div>
+      <div><dt>Durum</dt><dd>Öneri</dd></div>
+    </dl>
+
+    <p class="thesis">Kapı çalarak 1 milyon saate ulaşılamaz. Kampüs, <span class="m">tek operatörle çalışan</span> bir dağıtım katmanı.</p>
+    <p class="sub">200 işletmeyi bizzat gezmek arzı doğruluyor ama çoğaltmıyor. Bu doküman, tek bir kampüsü kendi kendine işleyen bir toplama birimine çeviren modeli ve bunu yarın çalıştırmaya hazır ekibi tarif ediyor.</p>
+  </div>
+
+  <section>
+    <h2><span class="n">1</span> Dağıtım hattı ve mikro-hedefleme</h2>
+    <p class="lede">Kampüs iki şey birden üretiyor: içeride doğrudan yüksek transfer değerli primitifler, dışarıda atölye sahasına gidecek toplayıcı gücü. Kanal aynı, çıktı iki tane.</p>
+
+    <div class="cols">
+      <div>
+        <h3>Dağıtım kanalları</h3>
+        <ul>
+          <li><b>Kulüp listeleri</b> <span>&mdash; Compec, Girişimcilik Kulübü, BÜYAK duyuru kanalları</span></li>
+          <li><b>Yurt ve sınıf grupları</b> <span>&mdash; kapalı WhatsApp ağları, kampüs dışı erişimi olmayan hacim</span></li>
+          <li><b>Bölüm laboratuvarları</b> <span>&mdash; asistanlar ve proje öğrencileri üzerinden</span></li>
+          <li><b>Kampüs kafeleri</b> <span>&mdash; yarı zamanlı çalışan ağı, doğrudan yüz yüze</span></li>
+          <li><b>Referans zinciri</b> <span>&mdash; her görüşmeden tek isim, listeye değil zincire çalışıyoruz</span></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Mikro-hedefleme: kimi arıyoruz</h3>
+        <ul>
+          <li><b>Makine laboratuvarı ve prototip atölyesi</b> <span>&mdash; hassas hizalama, alet kullanımı</span></li>
+          <li><b>Robotik ve elektronik kulüpleri</b> <span>&mdash; lehimleme, kablo yönlendirme, ince motor</span></li>
+          <li><b>Islak laboratuvar asistanları</b> <span>&mdash; tekrarlı hazırlık dizisi, iki elli koordinasyon</span></li>
+          <li><b>Kafe çalışanları</b> <span>&mdash; yüksek tekrarlı hazırlık, düşük varyans</span></li>
+          <li><b>Saha toplayıcıları</b> <span>&mdash; kampüs dışı atölye ziyaretleri, Bayrampaşa ve İkitelli</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <p class="lede" style="margin-top:18px">Kritik nokta: <span class="mark">torna tesviye</span> İstanbul taramasında en kıt kategori çıktı, 1.750 işletmenin yalnızca %3'ü, çünkü bu atölyeler B2B çalışıyor ve dijital iz bırakmıyor. Aynı primitif kampüsteki makine laboratuvarında zaten mevcut ve erişimi ücretsiz.</p>
+  </section>
+
+  <section>
+    <h2><span class="n">2</span> Öğrenci değer önerisi</h2>
+    <p class="lede">Teklif "yeni bir part-time iş" değil. Zaten harcanan saatin ikinci kez gelir üretmesi. Ek zaman maliyeti sıfır olduğu için karşılaştırma tabanı garsonluk ya da özel ders değil, hiç.</p>
+
+    <table class="indent">
+      <thead>
+        <tr>
+          <th style="width:34%">Kampüs kafesinde çalışan öğrenci</th>
+          <th style="width:22%">Mevcut durum</th>
+          <th style="width:22%">shift kaydı ile</th>
+          <th>Fark</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>Haftalık çalışma saati</td><td class="num">12 saat</td><td class="num">12 saat</td><td class="soft">değişmiyor</td></tr>
+        <tr><td>Ek zaman taahhüdü</td><td class="num soft">&mdash;</td><td class="num">0 saat</td><td class="soft">kayıt arka planda</td></tr>
+        <tr><td>Kabul edilen saat <span class="soft">(%45 varsayım)</span></td><td class="num soft">&mdash;</td><td class="num">5,4 saat</td><td class="soft">kalite filtresine bağlı</td></tr>
+        <tr><td>Haftalık ek gelir</td><td class="num soft">&mdash;</td><td class="num"><b>1.080 TL</b></td><td class="soft">200 TL × kabul saat</td></tr>
+        <tr><td>Aylık ek gelir</td><td class="num soft">&mdash;</td><td class="num"><b>~4.300 TL</b></td><td class="soft">4 haftalık</td></tr>
+      </tbody>
+    </table>
+
+    <div class="cols" style="margin-top:20px">
+      <div>
+        <h3>Operatörün işi: kabul oranını yönetmek</h3>
+        <p style="margin:0;font-size:15.5px">Kabul oranı %45'ten %70'e çıkarsa aynı öğrenci haftada 1.680 TL kazanıyor ve shift hiç yeni toplayıcı bulmadan üretimi %55 artırıyor. Bu yüzden benim işim insan bulmak değil, gönderim öncesi kalite filtresini kurmak ve ilk redlerden sonra ekibi yeniden eğitmek.</p>
+        <div class="econ">
+          <div class="big">%45 → %70</div>
+          <p>Kabul oranındaki 25 puanlık iyileşme, ekibi %55 büyütmekle aynı çıktıyı sıfır edinme maliyetiyle veriyor.</p>
+        </div>
+      </div>
+
+      <div>
+        <h3>Neden "iş ilanı" gibi anlatmıyoruz</h3>
+        <ul>
+          <li><b>Statü</b> <span>&mdash; embodied AI'ı besleyen ilk veri ekibinde olmak, üç yıl önce var olmayan bir rol</span></li>
+          <li><b>Seçicilik</b> <span>&mdash; "kabul edilen saat" bir kalite eşiği; herkesin girdiği bir iş değil</span></li>
+          <li><b>Görünürlük</b> <span>&mdash; Almanya'nın en büyük seed turunu kapatmış bir ekiple doğrudan temas</span></li>
+          <li><b>Esneklik</b> <span>&mdash; vardiya yok, ders programına müdahale yok</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">3</span> Pilot ekip matrisi</h2>
+    <p class="lede">Sekiz kişilik çekirdek. Primitif çeşitliliğine göre seçildi, hacme göre değil: aynı işi yapan sekiz kişi yerine sekiz farklı hücreyi dolduran sekiz kişi.</p>
+
+    <table class="indent">
+      <thead>
+        <tr>
+          <th style="width:6%">#</th>
+          <th style="width:19%">İsim</th>
+          <th style="width:19%">Rol / konum</th>
+          <th style="width:17%">Cihaz</th>
+          <th style="width:24%">Hedef task ve primitif</th>
+          <th>Onay</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td class="num">01</td><td class="slot">[isim]</td><td>Makine laboratuvarı</td><td>Göğüs bandı + telefon</td><td>Torna, freze <span class="soft">&mdash; hassas hizalama</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">02</td><td class="slot">[isim]</td><td>Prototip atölyesi</td><td>Göğüs bandı + telefon</td><td>Montaj, vidalama <span class="soft">&mdash; iki elli montaj</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">03</td><td class="slot">[isim]</td><td>Robotik kulübü</td><td>Boyun askısı</td><td>Lehimleme, kablo <span class="soft">&mdash; ince motor</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">04</td><td class="slot">[isim]</td><td>Kimya / biyoloji lab</td><td>Göğüs bandı + telefon</td><td>Numune hazırlama <span class="soft">&mdash; tekrarlı dizi</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">05</td><td class="slot">[isim]</td><td>Kampüs kafesi</td><td>Boyun askısı</td><td>Hazırlık, servis <span class="soft">&mdash; düşük varyans tekrar</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">06</td><td class="slot">[isim]</td><td>Kampüs kafesi</td><td>Boyun askısı</td><td>Bulaşık, istifleme <span class="soft">&mdash; kavra-yerleştir</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">07</td><td class="slot">[isim]</td><td>Saha toplayıcı</td><td>Göğüs bandı + telefon</td><td>Bayrampaşa konfeksiyon <span class="soft">&mdash; deforme malzeme</span></td><td class="soft">&mdash;</td></tr>
+        <tr><td class="num">08</td><td class="slot">[isim]</td><td>Saha toplayıcı</td><td>Göğüs bandı + telefon</td><td>İkitelli torna <span class="soft">&mdash; hassas hizalama</span></td><td class="soft">&mdash;</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2><span class="n">4</span> İlk 14 gün</h2>
+    <div class="plan">
+      <div>
+        <h4>GÜN 1&ndash;3</h4>
+        <p>Sekiz kişi onboarding, cihaz kurulumu, kişi başı 2 saat test kaydı. İlk gönderim yapılır.</p>
+      </div>
+      <div>
+        <h4>GÜN 4&ndash;7</h4>
+        <p>İlk redler gelir, gerçek kabul oranı ölçülür, gönderim öncesi kontrol listesi buradan yazılır.</p>
+      </div>
+      <div>
+        <h4>GÜN 8&ndash;14</h4>
+        <p>Kontrol listesiyle ikinci tur, ilk kampüs dışı saha ziyareti, kanal başına maliyet raporu.</p>
+      </div>
+    </div>
+
+    <p class="ask">İstediğim: Fellow Cohort I'de kampüs operatörlüğü. 14 gün sonunda gerçek kabul oranı ve kanal başına maliyetle geri geliyorum.</p>
+  </section>
+
+  <p class="notes">
+    <b>Varsayımlar.</b> Kabul oranı %45, öğrenci başına haftalık 12 saat ve kanal dönüşümleri benim varsayımım; hiçbiri shift verisinden gelmiyor. Gerçek kabul kriterleri paylaşıldığında model ve primitif ağırlıkları yeniden kalibre edilir.
+    <b>Ekip.</b> İsim alanları, kişilerden açık onay alınmadan doldurulmadı; roller ve primitif eşlemeleri hazır.
+    <b>Kaynak.</b> İstanbul kategori dağılımı, 8 bölge ve 8 kategori üzerinde çalıştırılan Places taramasından, 1.750 işletme.
+  </p>
+
+</div>
+</body>
+</html>
